@@ -101,19 +101,14 @@
 	</div>
 
 	<!-- Main board area filling remaining screen space -->
-	<div
-		class="scroll fixed flex flex-grow flex-col items-center overflow-hidden font-serif lg:flex-row"
-	>
+	<div class="flex flex-grow flex-col items-center overflow-hidden font-serif lg:flex-row">
 		<div class="h-full overflow-y-auto p-4 lg:w-1/2">
-			<div
-				class="fixed grid h-full gap-4 overflow-hidden"
-				style="grid-template-columns: repeat({dif}, minmax(0, 1fr));"
-			>
+			<div class="grid h-full gap-4" style="grid-template-columns: repeat({dif}, minmax(0, 1fr));">
 				{#each images as image}
 					<button
 						class:bg-black={image.matched}
 						class:opacity-20={image?.filename === selectedImage?.filename}
-						class="fixed aspect-square w-full cursor-pointer overflow-hidden"
+						class="aspect-square w-full cursor-pointer overflow-hidden"
 						onclick={() => selectImage(image)}
 						disabled={image.matched}
 					>
@@ -134,7 +129,7 @@
 					<button
 						class:invert={caption.matched}
 						class:underline={caption?.filename === selectedCaption?.filename}
-						class="fixed aspect-square w-full cursor-pointer overflow-hidden border-2 border-gray-500 bg-white decoration-wavy"
+						class="aspect-square w-full cursor-pointer overflow-hidden border-2 border-gray-500 bg-white decoration-wavy"
 						onclick={() => selectCaption(caption)}
 						disabled={caption.matched}
 					>
