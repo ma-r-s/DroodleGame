@@ -88,7 +88,7 @@
 	<div class="flex items-center justify-between px-4 pt-4">
 		<h1 class="text-xl font-bold">Droodles</h1>
 		<div class="flex items-center gap-2">
-			<p class="mr-16 font-serif text-lg">Mistakes: {mistakes}</p>
+			<p class="mr-16 hidden font-serif text-lg lg:block">Mistakes: {mistakes}</p>
 			<Button disabled={dif == 3} variant="outline" size="icon" onclick={decreaseDifficulty}>
 				<ChevronLeft class="h-4 w-4" />
 			</Button>
@@ -101,8 +101,8 @@
 	</div>
 
 	<!-- Main board area filling remaining screen space -->
-	<div class="flex flex-grow items-center overflow-hidden font-serif">
-		<div class="h-full w-1/2 overflow-y-auto p-4">
+	<div class="flex flex-grow flex-col items-center overflow-hidden font-serif lg:flex-row">
+		<div class="h-full overflow-y-auto p-4 lg:w-1/2">
 			<div class="grid h-full gap-4" style="grid-template-columns: repeat({dif}, minmax(0, 1fr));">
 				{#each images as image}
 					<button
@@ -123,7 +123,7 @@
 			</div>
 		</div>
 
-		<div class="h-full w-1/2 overflow-y-auto p-4">
+		<div class="h-full overflow-y-auto p-4 lg:w-1/2">
 			<div class="grid h-full gap-4" style="grid-template-columns: repeat({dif}, minmax(0, 1fr));">
 				{#each captions as caption}
 					<button
@@ -133,7 +133,7 @@
 						onclick={() => selectCaption(caption)}
 						disabled={caption.matched}
 					>
-						<p class="px-2 text-center text-xs">{caption.name}</p>
+						<p class="px-2 text-center text-[5px] md:text-xs">{caption.name}</p>
 					</button>
 				{/each}
 			</div>
