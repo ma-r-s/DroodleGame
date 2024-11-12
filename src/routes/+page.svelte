@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import imageMappings from '$lib/image_mappings.json';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
@@ -12,15 +12,11 @@
 	}));
 
 	let dif = $state(5);
-	let images = $state(allImages.slice(0, dif * dif));
-	let captions = $state(images.map((image) => ({ ...image })));
+	let images = $state(allImages.slice(0, dif * dif).map((image) => ({ ...image })));
+	let captions = $state(shuffleArray(images.map((image) => ({ ...image }))));
 
 	let selectedImage = $state(null);
 	let selectedCaption = $state(null);
-
-	// Use Maps for fast lookup of images and captions
-	const imageMap = $derived(new Map(images.map((image) => [image.filename, image])));
-	const captionMap = $derived(new Map(captions.map((caption) => [caption.filename, caption])));
 
 	function selectImage(image) {
 		selectedImage = image;
@@ -34,14 +30,19 @@
 
 	function checkMatch() {
 		if (selectedImage && selectedCaption) {
-			if (selectedImage.name === selectedCaption.name) {
-				imageMap.get(selectedImage.filename).matched = true;
-				captionMap.get(selectedCaption.filename).matched = true;
+			if (selectedImage.filename === selectedCaption.filename) {
+				const imageIndex = images.findIndex((img) => img.filename === selectedImage.filename);
+				const captionIndex = captions.findIndex((cap) => cap.filename === selectedCaption.filename);
+
+				if (imageIndex !== -1) images[imageIndex].matched = true;
+				if (captionIndex !== -1) captions[captionIndex].matched = true;
+
 				selectedImage = null;
 				selectedCaption = null;
 			}
 		}
 	}
+
 	function shuffleArray(array) {
 		for (let i = array.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -51,21 +52,25 @@
 	}
 
 	function newPuzzle() {
-		// Shuffle allImages and pick the first `dif * dif` items
+		// Shuffle allImages and select a new set of images
 		const shuffledImages = shuffleArray([...allImages]);
 		images = shuffledImages.slice(0, dif * dif).map((image) => ({ ...image, matched: false }));
-		captions = images.map((image) => ({ ...image }));
+
+		// Shuffle the captions for the new set of images
+		captions = shuffleArray(images.map((image) => ({ ...image })));
+
+		// Reset selections
 		selectedImage = null;
 		selectedCaption = null;
 	}
 
 	function increaseDifficulty() {
-		if (dif < 8) dif += 1; // Adjust this max limit as desired
+		dif += 1;
 		newPuzzle();
 	}
 
 	function decreaseDifficulty() {
-		if (dif > 2) dif -= 1; // Adjust this min limit as desired
+		dif -= 1;
 		newPuzzle();
 	}
 </script>
@@ -73,11 +78,11 @@
 <div class="flex items-center justify-between p-4">
 	<h1 class="text-xl font-bold">Droodles</h1>
 	<div class="flex items-center gap-2">
-		<Button variant="outline" size="icon" onclick={decreaseDifficulty}>
+		<Button disabled={dif == 3} variant="outline" size="icon" onclick={decreaseDifficulty}>
 			<ChevronLeft class="h-4 w-4" />
 		</Button>
 		<span>Difficulty: {dif}x{dif}</span>
-		<Button variant="outline" size="icon" onclick={increaseDifficulty}>
+		<Button disabled={dif == 8} variant="outline" size="icon" onclick={increaseDifficulty}>
 			<ChevronRight class="h-4 w-4" />
 		</Button>
 		<Button variant="outline" onclick={newPuzzle}>New Puzzle</Button>
