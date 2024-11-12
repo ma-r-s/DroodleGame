@@ -85,10 +85,10 @@
 </script>
 
 <div class="flex h-dvh flex-col">
+	<!-- Top Bar -->
 	<div class="flex items-center justify-between px-4 pt-4">
 		<h1 class="text-xl font-bold">Droodles</h1>
 		<div class="flex items-center gap-2">
-			<p class="mr-16 hidden font-serif text-lg lg:block">Mistakes: {mistakes}</p>
 			<Button disabled={dif == 3} variant="outline" size="icon" onclick={decreaseDifficulty}>
 				<ChevronLeft class="h-4 w-4" />
 			</Button>
@@ -102,8 +102,11 @@
 
 	<!-- Main board area filling remaining screen space -->
 	<div class="flex flex-grow flex-col items-center overflow-hidden font-serif lg:flex-row">
-		<div class="h-full overflow-y-auto p-4 lg:w-1/2">
-			<div class="grid h-full gap-4" style="grid-template-columns: repeat({dif}, minmax(0, 1fr));">
+		<div class="flex h-full justify-center overflow-y-auto p-4 lg:w-1/2">
+			<div
+				class="grid aspect-square h-full w-full gap-4"
+				style="grid-template-columns: repeat({dif}, minmax(0, 1fr));"
+			>
 				{#each images as image}
 					<button
 						class:bg-black={image.matched}
@@ -123,8 +126,11 @@
 			</div>
 		</div>
 
-		<div class="h-full overflow-y-auto p-4 lg:w-1/2">
-			<div class="grid h-full gap-4" style="grid-template-columns: repeat({dif}, minmax(0, 1fr));">
+		<div class="flex h-full justify-center overflow-y-auto p-4 lg:w-1/2">
+			<div
+				class="grid aspect-square h-full w-full gap-4"
+				style="grid-template-columns: repeat({dif}, minmax(0, 1fr));"
+			>
 				{#each captions as caption}
 					<button
 						class:invert={caption.matched}
@@ -138,5 +144,11 @@
 				{/each}
 			</div>
 		</div>
+	</div>
+
+	<!-- Bottom Section -->
+	<div class="flex justify-between px-4 pb-4">
+		<Button variant="transparent" href="/www" class="p-0 overline">Why? Who? What</Button>
+		<p class="font-serif text-lg">Mistakes: {mistakes}</p>
 	</div>
 </div>
