@@ -12,12 +12,22 @@
 	}));
 
 	let dif = $state(5);
-	let images = $state(allImages.slice(0, dif * dif).map((image) => ({ ...image })));
-	let captions = $state(shuffleArray(images.map((image) => ({ ...image }))));
+	let currentIndex = $state(0); // Track the current position in the allImages array
+	let images = $state([]);
+	let captions = $state([]);
 
 	let selectedImage = $state(null);
 	let selectedCaption = $state(null);
 	let mistakes = $state(0); // Initialize mistakes counter
+
+	// Populate the initial puzzle
+	function initializePuzzle() {
+		images = allImages.slice(currentIndex, currentIndex + dif * dif).map((image) => ({
+			...image,
+			matched: false
+		}));
+		captions = shuffleArray(images.map((image) => ({ ...image })));
+	}
 
 	function selectImage(image) {
 		selectedImage = image;
@@ -60,12 +70,13 @@
 	}
 
 	function newPuzzle() {
-		// Shuffle allImages and select a new set of images
-		const shuffledImages = shuffleArray([...allImages]);
-		images = shuffledImages.slice(0, dif * dif).map((image) => ({ ...image, matched: false }));
+		// Update currentIndex for the next set of images
+		currentIndex += dif * dif;
+		if (currentIndex >= allImages.length) {
+			currentIndex = 0; // Wrap around if all images have been shown
+		}
 
-		// Shuffle the captions for the new set of images
-		captions = shuffleArray(images.map((image) => ({ ...image })));
+		initializePuzzle();
 
 		// Reset selections and mistakes
 		selectedImage = null;
@@ -82,6 +93,9 @@
 		dif -= 1;
 		newPuzzle();
 	}
+
+	// Initialize the first puzzle
+	initializePuzzle();
 </script>
 
 <div class="flex h-dvh flex-col">
