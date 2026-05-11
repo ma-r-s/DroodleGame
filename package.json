@@ -15,7 +15,7 @@
 		"type": "git",
 		"url": "git+https://github.com/ma-r-s/DroodleGame.git"
 	},
-	"homepage": "https://droodles.vercel.app",
+	"homepage": "https://droodles.ma-r-s.com",
 	"bugs": "https://github.com/ma-r-s/DroodleGame/issues",
 	"type": "module",
 	"scripts": {

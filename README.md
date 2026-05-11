@@ -5,7 +5,7 @@ absurdist visual riddles. You are shown a grid of minimalist drawings on one sid
 shuffled set of captions on the other. Match each drawing with its caption. Some are
 obvious in retrospect. Most are completely impossible.
 
-**Play:** [droodles.vercel.app](https://droodles.vercel.app)
+**Play:** [droodles.ma-r-s.com](https://droodles.ma-r-s.com)
 **Writeup:** [ma-r-s.com/projects/droodles](https://www.ma-r-s.com/projects/droodles)
 
 ## What is a Droodle
